@@ -161,8 +161,7 @@ export PATH="$PATH:/home/ANT.AMAZON.COM/vasuper/.local/bin"
 
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /home/ANT.AMAZON.COM/vasuper/.brazil_completion/zsh_completion
+source /home/linuxbrew/.linuxbrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
@@ -170,3 +169,6 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 . "$HOME/.cargo/env"
+### bling.sh source start
+test -f /usr/share/ublue-os/bluefin-cli/bling.sh && source /usr/share/ublue-os/bluefin-cli/bling.sh
+### bling.sh source end
