@@ -172,3 +172,14 @@ fi
 ### bling.sh source start
 test -f /usr/share/ublue-os/bluefin-cli/bling.sh && source /usr/share/ublue-os/bluefin-cli/bling.sh
 ### bling.sh source end
+#
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+export EDITOR=nvim
