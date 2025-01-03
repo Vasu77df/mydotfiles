@@ -1,0 +1,41 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-space h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-space l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-space k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-space j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-space alt-h": ["workspace::SwapPaneInDirection", "Left"],
+      "ctrl-space alt-l": ["workspace::SwapPaneInDirection", "Right"],
+      "ctrl-space alt-k": ["workspace::SwapPaneInDirection", "Up"],
+      "ctrl-space alt-j": ["workspace::SwapPaneInDirection", "Down"],
+      "ctrl-space shift-k": "pane::SplitUp",
+      "ctrl-space shift-j": "pane::SplitDown",
+      "ctrl-space shift-h": "pane::SplitLeft",
+      "ctrl-space shift-l": "pane::SplitRight"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      // "j k": ["workspace::SendKeystrokes", "escape"]
+    }
+  },
+  {
+    "context": "TabSwitcher",
+    "bindings": {
+      "ctrl-k": "menu::SelectPrev",
+      "ctrl-j": "menu::SelectNext",
+      "ctrl-shift-tab": "menu::SelectPrev",
+      "ctrl-backspace": "tab_switcher::CloseSelectedItem"
+    }
+  }
+]
