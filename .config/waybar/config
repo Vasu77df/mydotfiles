@@ -63,7 +63,7 @@
 
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": " {signalStrength}%",
+        "format-wifi": "  {signalStrength}%",
         "format-ethernet": "Connected  ",
         "tooltip-format": "{ifname}: {gwaddr}",
         "format-linked": "{ifname} (No IP)",
@@ -76,7 +76,7 @@
         "format": "{}",
         "signal": 8,
         "interval": "once",
-        "exec": "/home/jay/.config/sway/audio.sh",
+        "exec": "~/.config/sway/audio.sh",
         "on-click": "pavucontrol",
     },
 
@@ -84,6 +84,6 @@
         "format": "🖳  {}",
         "exec": "/usr/bin/hostname -f",
         "interval": "once",
-        "on-click": "/usr/bin/rxvt -e /usr/bin/htop",
+        "on-click": "/usr/bin/urxvt -e /usr/bin/btop",
     },
 }

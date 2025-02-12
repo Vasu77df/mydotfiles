@@ -22,7 +22,7 @@ set $background #332b2b
 set $color_urgent #fb4934
 set $text_color #ffffff
 set $title_bg_unfocused #666666
-set $title_outline_active #0e844e
+set $title_outline_active #ca9ee6
 set $title_outline_unfocused #332b2b
 
 # Set Colors:           Border                   Background          Text          Indicator             Child Border
@@ -254,3 +254,35 @@ bindsym $mod+d exec $menu
 #======#
 include /etc/sway/config-vars.d/*
 include /etc/sway/config.d/*
+
+
+# Mako
+bindsym $mod+n exec makoctl dismiss
+bindsym $mod+Shift+n exec makoctl dismiss -a
+
+# Start programs
+exec mako
+
+# Screenshot
+    bindsym $mod+y exec grim ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+    bindsym $mod+Shift+y exec grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+
+# Window Rules
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [app_id="blueman-manager"] floating enable
+
+# Network Manager
+exec nm-applet --indicator 
+# Bluetooth
+exec blueman-applet 
+exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# Power menu (recommended)
+bindsym $mod+Shift+p exec swaynag -t warning \
+    -m 'Power Menu' \
+    -B 'Shutdown' 'systemctl poweroff' \
+    -B 'Reboot' 'systemctl reboot' \
+    -B 'Logout' 'swaymsg exit' \
+    -B 'Suspend' 'systemctl suspend'
+
