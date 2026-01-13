@@ -12,6 +12,33 @@
 # pressing Super + Shift + C.                                                      #
 #==================================================================================#
 
+# Monitor configuration
+
+# Sway monitor configuration
+# Layout: DP-5 (left) | DP-1 (middle) | eDP-1 (right)
+
+# DP-5 - Left monitor (2560x1440 @ 59.951 Hz)
+output DP-5 mode 2560x1440@59.951Hz position 0,0 scale 1.0
+
+# DP-1 - Middle monitor (2560x1440 @ 59.951 Hz)
+output DP-1 mode 2560x1440@59.951Hz position 2560,0 scale 1.0
+
+# eDP-1 - Right monitor (1920x1200 @ 60.001 Hz)
+output eDP-1 mode 1920x1200@60.001Hz position 5120,0 scale 1.0
+
+# DP-5 - Left monitor (2560x1440 @ 59.951 Hz)
+output DP-6 mode 2560x1440@59.951Hz position 0,0 scale 1.0
+
+# DP-1 - Middle monitor (2560x1440 @ 59.951 Hz)
+output DP-1 mode 2560x1440@59.951Hz position 2560,0 scale 1.0
+
+# eDP-1 - Right monitor (1920x1200 @ 60.001 Hz)
+output eDP-1 mode 1920x1200@60.001Hz position 5120,0 scale 1.0
+# Optional: Set workspaces to specific outputs
+workspace 1 output DP-5
+workspace 2 output DP-1
+workspace 3 output eDP-1
+
 
 #========================#
 # Appearance and Theming #
@@ -40,7 +67,7 @@ gaps outer 2
 default_border pixel 1
 
 # Set the Wallpaper:
-output * bg $HOME/.config/sway/wallpaper.png fit
+output * bg $HOME/.config/sway/wallpaper.jpg fill
 
 
 #====================================#
@@ -137,15 +164,15 @@ bindsym $mod+r mode "resize"
 # Keyboard Shortcuts (Workspaces) #
 #=================================#
 # Switch to workspace
-set $ws1 "1 - Pane"
-set $ws2 "2 - Pane"
-set $ws3 "3 - Pane"
-set $ws4 "4 - Pane"
-set $ws5 "5 - Pane"
-set $ws6 "6 - Pane"
-set $ws7 "7 - Pane"
-set $ws8 "8 - Pane"
-set $ws9 "9 - Pane"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
 
 # Move between workspaces
 bindsym $mod+1 workspace $ws1
