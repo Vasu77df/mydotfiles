@@ -1,18 +1,10 @@
-# Ansible managed message here
+# Sway Window Manager Configuration
+# Theme: Gruvbox-inspired (based on workstation theme)
+# Keybindings preserved from original config
 
 #==================================================================================#
-# Sway Window Manager Configuration File                                           #
-#----------------------------------------------------------------------------------#
-# Purpose: This configuration file enables you to tweak keyboard shortcuts, adjust #
-# themes and colors, set the wallpaper, and more.                                  #
-#                                                                                  #
-# License: Creative Commons Attribution 4.0 International                          #
-#                                                                                  #
-# Pro-tip: While using Sway, you can trigger this configuration to be re-read by   #
-# pressing Super + Shift + C.                                                      #
+# Monitor Configuration                                                            #
 #==================================================================================#
-
-# Monitor configuration
 
 # Sway monitor configuration
 # Layout: DP-5 (left) | DP-1 (middle) | eDP-1 (right)
@@ -26,128 +18,157 @@ output DP-1 mode 2560x1440@59.951Hz position 2560,0 scale 1.0
 # eDP-1 - Right monitor (1920x1200 @ 60.001 Hz)
 output eDP-1 mode 1920x1200@60.001Hz position 5120,0 scale 1.0
 
-# DP-5 - Left monitor (2560x1440 @ 59.951 Hz)
+# DP-6 - Alternate left monitor (2560x1440 @ 59.951 Hz)
 output DP-6 mode 2560x1440@59.951Hz position 0,0 scale 1.0
 
-# DP-1 - Middle monitor (2560x1440 @ 59.951 Hz)
-output DP-1 mode 2560x1440@59.951Hz position 2560,0 scale 1.0
-
-# eDP-1 - Right monitor (1920x1200 @ 60.001 Hz)
-output eDP-1 mode 1920x1200@60.001Hz position 5120,0 scale 1.0
 # Optional: Set workspaces to specific outputs
 workspace 1 output DP-5
 workspace 2 output DP-1
 workspace 3 output eDP-1
 
 
-#========================#
-# Appearance and Theming #
-#========================#
-# Declare Colors:
-set $background #332b2b
-# set $background #ed8796
-set $color_urgent #fb4934
-set $text_color #ffffff
-set $title_bg_unfocused #666666
-set $title_outline_active #ca9ee6
-set $title_outline_unfocused #332b2b
+#==================================================================================#
+# Variables                                                                        #
+#==================================================================================#
 
-# Set Colors:           Border                   Background          Text          Indicator             Child Border
-client.background       $background
-client.focused          $title_outline_active    $background         $text_color   $title_outline_active $title_outline_active
-client.focused_inactive $title_outline_unfocused $background         $text_color   $text_color           $title_outline_unfocused
-client.unfocused        $title_outline_unfocused $title_bg_unfocused $text_color   $title_outline_active
-client.urgent           $color_urgent            $color_urgent       $color_urgent $color_urgent         $color_urgent
+# Modifier key (Super/Windows key)
+set $mod Mod4
 
-# Add gaps in between all application windows:
+# ALT key alias
+set $alt Mod1
+
+# Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+
+# Gruvbox-inspired colors
+set $bg #222222
+set $fg #d8a657
+set $ur #ea6962
+set $uf #a89984
+
+# Applications
+set $term ghostty
+set $menu wofi --show drun -i | xargs swaymsg exec --
+set $lock_screen swaylock -i ~/.config/sway/wallpaper.png
+
+
+#==================================================================================#
+# Appearance and Theming (Gruvbox Style)                                          #
+#==================================================================================#
+
+# Title bar styling
+title_align center
+font pango: Roboto Condensed Bold 8
+titlebar_border_thickness 3
+titlebar_padding 3
+for_window [app_id="^.*"] title_format "%title"
+for_window [class="^.*"] title_format "%title"
+
+# Border configuration
+default_border none
+default_border normal 0
+default_floating_border normal 0
+for_window [app_id="^.*"] border pixel 3
+
+# Gaps
 gaps inner 5
-gaps outer 2
+gaps outer 0
 
-# Configure the default border:
-default_border pixel 1
+# Misc appearance settings
+workspace_layout default
+mouse_warping none
+seat * hide_cursor 5000
+focus_follows_mouse no
+focus_wrapping no
 
-# Set the Wallpaper:
-output * bg $HOME/.config/sway/wallpaper.jpg fill
+# Window colors:     border -> background -> text -> indicator -> child_border
+client.focused          $fg $fg $bg $fg $fg
+client.unfocused        $fg $bg $fg $uf $uf
+client.focused_inactive $fg $fg $bg $uf $uf
+client.urgent           $ur $ur $bg $ur $ur
+
+# Wallpaper
+output * bg $HOME/.config/sway/wallpaper.png fill
 
 
-#====================================#
-# Activate the panel                 #
-#====================================#
-# Set the waybar command for the application launcher:
+#==================================================================================#
+# Bar Configuration                                                                #
+#==================================================================================#
+
 bar {
     swaybar_command waybar
 }
 
 
-#====================================#
-# Keyboard Shortcuts (Sway-specific) #
-#====================================#
-# Set the modifier key to super:
-set $mod Mod4
+#==================================================================================#
+# Keyboard Shortcuts (Sway-specific)                                              #
+#==================================================================================#
 
-# Set the ALT key to $alt (since Mod1 is harder to remember):
-set $alt Mod1
-
-# Set up a shortcut to reload this config file:
+# Reload configuration
 bindsym $mod+Shift+c reload
 
-# Quit your current session and return to the log-in manager/tty:
+# Exit sway
 bindsym $mod+Shift+e exec $HOME/.config/sway/exit.sh
 
 # Screen locking (automatic, with a timeout)
-set $lock swaylock -c 550000
 exec swayidle -w \
-    timeout 600 $lock \
+    timeout 600 '$lock_screen' \
     timeout 570 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
-    before-sleep $lock
+    before-sleep '$lock_screen'
 
 # Screen locking (manual)
-set $lock_screen exec bash ~/.config/sway/lock_screen.sh
 bindsym $mod+Escape exec $lock_screen
 
 
-#========================================#
-# Keyboard Shortcuts (Window Management) #
-#========================================#
-# Move focus to another window:
+#==================================================================================#
+# Keyboard Shortcuts (Window Management)                                          #
+#==================================================================================#
+
+# Move focus to another window (arrow keys)
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-# Move focus to another window ("cult of vim" version):
+# Move focus to another window (vim keys)
 bindsym $mod+j focus down
 bindsym $mod+h focus left
 bindsym $mod+l focus right
 bindsym $mod+k focus up
 
-# Move the window:
+# Move the window (arrow keys)
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# Move the the window ("cult of vim" version):
+# Move the window (vim keys)
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
-# Hold the modifier key and hold the left/right mouse button
-# to drag or resize a window respectively. This isn't exclusive
-# to floating windows:
+# Floating modifier
 floating_modifier $mod normal
 
-# Resizing containers:
+# Resize mode
 mode "resize" {
-    # Resize windows with arrow keys:
+    # Resize with arrow keys
     bindsym Left resize shrink width 10px
     bindsym Down resize grow height 10px
     bindsym Up resize shrink height 10px
     bindsym Right resize grow width 10px
 
-    # "cult of vim" version:
+    # Resize with vim keys
     bindsym h resize shrink width 10px
     bindsym j resize grow height 10px
     bindsym k resize shrink height 10px
@@ -160,21 +181,11 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-#=================================#
-# Keyboard Shortcuts (Workspaces) #
-#=================================#
-# Switch to workspace
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
+#==================================================================================#
+# Keyboard Shortcuts (Workspaces)                                                 #
+#==================================================================================#
 
-# Move between workspaces
+# Switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
@@ -197,115 +208,141 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 
 
-#=============================#
-# Keyboard Shortcuts (Layout) #
-#=============================#
-# You can "split" the current object of your focus with
-# $mod+b or $mod+v, for horizontal and vertical splits
-# respectively.
+#==================================================================================#
+# Keyboard Shortcuts (Layout)                                                      #
+#==================================================================================#
+
+# Split horizontal/vertical
 bindsym $mod+b splith
 bindsym $mod+v splitv
 
-# Switch the current container between different layout styles
+# Switch layout styles
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
-# Make the current focus fullscreen
+# Fullscreen
 bindsym $mod+f fullscreen
 
-# Toggle the current focus between tiling and floating mode
+# Toggle floating
 bindsym $mod+Shift+f floating toggle
 
-# Swap focus between the tiling area and the floating area
+# Swap focus between tiling and floating
 bindsym $mod+tab focus mode_toggle
 
-# Move focus to the parent container
+# Focus parent container
 bindsym $mod+a focus parent
 
 
-#=================================#
-# Keyboard Shortcuts (Scratchpad) #
-#=================================#
-# Sway has a "scratchpad", which is a bag of holding for windows.
-# You can send windows there and get them back later.
+#==================================================================================#
+# Keyboard Shortcuts (Scratchpad)                                                  #
+#==================================================================================#
 
-# Move the currently focused window to the scratchpad
+# Move window to scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
-# Show the next scratchpad window or hide the focused scratchpad window.
-# If there are multiple scratchpad windows, this command cycles through them.
+# Show/cycle scratchpad windows
 bindsym $mod+minus scratchpad show
 
 
-#===============================#
-# Keyboard Shortcuts (Hardware) #
-#===============================#
-# Audio
+#==================================================================================#
+# Keyboard Shortcuts (Hardware)                                                    #
+#==================================================================================#
+
+# Audio controls
 bindsym XF86AudioRaiseVolume exec "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+; pkill -RTMIN+8 waybar"
 bindsym XF86AudioLowerVolume exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTMIN+8 waybar"
 bindsym XF86AudioMute exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; pkill -RTMIN+8 waybar"
 
-# Brightness
+# Brightness controls
 bindsym XF86MonBrightnessDown exec light -U 10
 bindsym XF86MonBrightnessUp exec light -A 10
 
 
-#=============================================#
-# Keyboard Shortcuts (launching applications) #
-#=============================================#
-# Set up wofi to replace dmenu as the launcher of choice:
-set $menu wofi --show drun  -i | xargs swaymsg exec --
+#==================================================================================#
+# Keyboard Shortcuts (Applications)                                               #
+#==================================================================================#
 
-# Launch your browser:
-bindsym $mod+shift+b exec firefox
-
-# Open a file manager:
-bindsym ctrl+$mod+f exec nautilus
-
-# Open a terminal emulator:
-set $term ghostty
+# Terminal
 bindsym $mod+t exec $term
 
-# Kill focused window:
+# Kill focused window
 bindsym $mod+Shift+q kill
 
-# Open the application launcher:
+# Application launcher
 bindsym $mod+space exec $menu
-
-# Open the application launcher (alternate version):
 bindsym $mod+d exec $menu
 
-#======#
-# Misc #
-#======#
-include /etc/sway/config-vars.d/*
-include /etc/sway/config.d/*
+# Browser
+bindsym $mod+shift+b exec firefox
+
+# File manager
+bindsym ctrl+$mod+f exec nautilus
 
 
-# Mako
+#==================================================================================#
+# Mako Notifications                                                               #
+#==================================================================================#
+
 bindsym $mod+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl dismiss -a
 
-# Start programs
+
+#==================================================================================#
+# Screenshots                                                                       #
+#==================================================================================#
+
+bindsym $mod+y exec grim ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+bindsym $mod+Shift+y exec grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+
+
+#==================================================================================#
+# Window Rules                                                                      #
+#==================================================================================#
+
+# Focus latest spawned window
+for_window [shell=".*"] focus
+
+# Center all floating windows
+for_window [floating] move position center; sticky disable
+
+# Floating apps
+for_window [app_id="pavucontrol"] floating enable; move position center; resize set 70ppt 75ppt
+for_window [app_id="nm-connection-editor"] floating enable; move position center
+for_window [app_id="blueman-manager"] floating enable; move position center; resize set 70ppt 75ppt
+
+# XDG desktop portal
+for_window [app_id="(?i).*xdg-desktop-portal-gtk.*"] floating enable; move position center; resize set 70ppt 75ppt
+for_window [class="(?i).*xdg-desktop-portal-gtk.*"] floating enable; move position center; resize set 70ppt 75ppt
+
+# Dialog windows
+for_window [window_type="dialog"] floating enable; move position center
+for_window [window_type="utility"] floating enable; move position center
+for_window [window_type="popup_menu"] floating enable; move position center
+
+
+#==================================================================================#
+# Autostart                                                                         #
+#==================================================================================#
+
+# Notification daemon
 exec mako
 
-# Screenshot
-    bindsym $mod+y exec grim ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
-    bindsym $mod+Shift+y exec grim -g "$(slurp)" ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+# Network Manager applet
+exec nm-applet --indicator
 
-# Window Rules
-for_window [app_id="pavucontrol"] floating enable
-for_window [app_id="nm-connection-editor"] floating enable
-for_window [app_id="blueman-manager"] floating enable
+# Bluetooth applet
+exec blueman-applet
 
-# Network Manager
-exec nm-applet --indicator 
-# Bluetooth
-exec blueman-applet 
+# DBus environment
 exec --no-startup-id dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --systemd --all
 
-# Power menu (recommended)
+
+#==================================================================================#
+# Power Menu                                                                        #
+#==================================================================================#
+
 bindsym $mod+Shift+p exec swaynag -t warning \
     -m 'Power Menu' \
     -B 'Shutdown' 'systemctl poweroff' \
@@ -313,3 +350,10 @@ bindsym $mod+Shift+p exec swaynag -t warning \
     -B 'Logout' 'swaymsg exit' \
     -B 'Suspend' 'systemctl suspend'
 
+
+#==================================================================================#
+# Includes                                                                          #
+#==================================================================================#
+
+include /etc/sway/config-vars.d/*
+include /etc/sway/config.d/*
