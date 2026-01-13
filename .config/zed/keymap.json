@@ -9,14 +9,14 @@
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-space h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-space l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-space k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-space j": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-space alt-h": ["workspace::SwapPaneInDirection", "Left"],
-      "ctrl-space alt-l": ["workspace::SwapPaneInDirection", "Right"],
-      "ctrl-space alt-k": ["workspace::SwapPaneInDirection", "Up"],
-      "ctrl-space alt-j": ["workspace::SwapPaneInDirection", "Down"],
+      "ctrl-space h": "workspace::ActivatePaneLeft",
+      "ctrl-space l": "workspace::ActivatePaneRight",
+      "ctrl-space k": "workspace::ActivatePaneUp",
+      "ctrl-space j": "workspace::ActivatePaneDown",
+      "ctrl-space alt-h": "workspace::SwapPaneLeft",
+      "ctrl-space alt-l": "workspace::SwapPaneRight",
+      "ctrl-space alt-k": "workspace::SwapPaneUp",
+      "ctrl-space alt-j": "workspace::SwapPaneDown",
       "ctrl-space shift-k": "pane::SplitUp",
       "ctrl-space shift-j": "pane::SplitDown",
       "ctrl-space shift-h": "pane::SplitLeft",
@@ -32,9 +32,9 @@
   {
     "context": "TabSwitcher",
     "bindings": {
-      "ctrl-k": "menu::SelectPrev",
+      "ctrl-k": "menu::SelectPrevious",
       "ctrl-j": "menu::SelectNext",
-      "ctrl-shift-tab": "menu::SelectPrev",
+      "ctrl-shift-tab": "menu::SelectPrevious",
       "ctrl-backspace": "tab_switcher::CloseSelectedItem"
     }
   }
